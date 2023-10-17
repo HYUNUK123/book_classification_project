@@ -19,10 +19,14 @@ driver = webdriver.Chrome(service=service, options=options)  # <- options로 변
 category = ['Economy', 'Novel', 'Poetry', 'Humanities', 'Self_development','History', 'Cartoon', 'Magazine']
 category_pages = [170, 50917, 50940, 656, 336, 74, 2551, 2913]
 
-url1 = 'https://www.aladin.co.kr/shop/wbrowse.aspx?CID='
-url2 = '&BrowseTarget=List'
+url1 = 'https://www.aladin.co.kr/shop/wbrowse.aspx?BrowseTarget=List&ViewRowsCount=25&ViewType=Detail&PublishMonth=0&SortOrder=2&page='
+url2 = '&Stockstatus=1&PublishDay=84&CID=170&SearchOption='
 
 df_titles = pd.DataFrame()
-
 for i in range(8):
-    section_url = url1 + str(category_pages[i]) + url2
+    titles = []
+    for j in range(1000):
+        url = url1 + str(j) + url2
+        print(url)
+
+
