@@ -34,37 +34,32 @@ for i in range(0,2):
         for k in range(1, 26):
             try:
                 title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[2]/a/b'.format(k)).text
-                links_selector = driver.find_elements(By.CSS_SELECTOR, '#Myform > div:nth-child(2) > div:nth-child({}) > table > tbody > tr > td:nth-child(3) > table > tbody > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > ul > li:nth-child(2) > a.bo3'.format(k))
-                titles.append(title)
-                for link_selector in links_selector:
-                    link = link_selector.get_attribute('href')
-                    links.append(link)
             except:
                 try:
                     title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[1]/a/b'.format(k)).text
-                    links_selector = driver.find_elements(By.CSS_SELECTOR, '#Myform > div:nth-child(2) > div:nth-child({}) > table > tbody > tr > td:nth-child(3) > table > tbody > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > ul > li:nth-child(2) > a.bo3'.format(k))
-                    titles.append(title)
-                    for link_selector in links_selector:
-                        link = link_selector.get_attribute('href')
-                        links.append(link)
                 except:
                     try:
                         title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[1]/a[1/b'.format(k)).text
-                        links_selector = driver.find_elements(By.CSS_SELECTOR, '#Myform > div:nth-child(2) > div:nth-child({}) > table > tbody > tr > td:nth-child(3) > table > tbody > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > ul > li:nth-child(2) > a.bo3'.format(k))
-                        titles.append(title)
-                        for link_selector in links_selector:
-                            link = link_selector.get_attribute('href')
-                            links.append(link)
                     except:
                         print('NoSuchElementException : {}페이지 {}번째'.format(j, k))
-        if(j%100 ==0):
-            df_section_title = pd.DataFrame(titles, columns=['titles'])
-            df_section_title['category'] = category[i]
-            df_section_title.to_csv('./crawling_data/crawling_data_{}_{}.csv'.format(i,j), index = False)
-            titles = []
-            df_section_link = pd.DataFrame(links, columns= ['links'])
-            df_section_link.to_csv('./crawling_data/crawling_link_{}_{}.csv'.format(i,j), index = False)
-            links = []
+            finally:
+                titles.append(title)
+                links_selector = driver.find_elements(By.CSS_SELECTOR,'#Myform > div:nth-child(2) > div:nth-child({}) > table > tbody > tr > td:nth-child(3) > table > tbody > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > ul > li:nth-child(2) > a.bo3'.format(k))
+                if links_selector ==[]:
+                    links_selector = driver.find_elements(By.CSS_SELECTOR,'#Myform > div:nth-child(2) > div:nth-child({}) > table > tbody > tr > td:nth-child(3) > table > tbody > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > ul > li:nth-child(1) > a.bo3'.format(k))
+                for link_selector in links_selector:
+                    link = link_selector.get_attribute('href')
+                    links.append(link)
+                    print('{}.{}'.format(k, link))
+
+        # if(j%100 ==0):
+        df_section_title = pd.DataFrame(titles, columns=['titles'])
+        df_section_title['category'] = category[i]
+        df_section_title.to_csv('./crawling_data/crawling_data_{}_{}.csv'.format(i,j), index = False)
+        titles = []
+        df_section_link = pd.DataFrame(links, columns= ['links'])
+        df_section_link.to_csv('./crawling_data/crawling_link_{}_{}.csv'.format(i,j), index = False)
+        links = []
 
 print(df_titles.head())
 df_titles.info()
