@@ -20,13 +20,26 @@ category = ['Economy', 'Novel', 'Poetry', 'Humanities', 'Self_development','Hist
 category_pages = [170, 50917, 50940, 656, 336, 74, 2551, 2913]
 
 url1 = 'https://www.aladin.co.kr/shop/wbrowse.aspx?BrowseTarget=List&ViewRowsCount=25&ViewType=Detail&PublishMonth=0&SortOrder=2&page='
-url2 = '&Stockstatus=1&PublishDay=84&CID=170&SearchOption='
 
 df_titles = pd.DataFrame()
 for i in range(8):
+    url2 = '&Stockstatus=1&PublishDay=84&CID={}&SearchOption='.format(category_pages[i])
     titles = []
+    links = []
     for j in range(1000):
         url = url1 + str(j) + url2
-        print(url)
+        driver.get(url)
+        time.sleep(0.5)
+        for k in range(1, 26):
+                try:
+                    title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[2]/a/b'.format(k)).text
+                    link = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[1]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[2]/a[1]'.format(k)).text
+                    titles.append(title)
+                    links.append(link)
+                    print(link)
+                except:
+                    print('NoSuchElementException : {}페이지 {}번째'.format(j, k))
+
+#
 
 
