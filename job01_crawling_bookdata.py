@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import re
@@ -26,20 +27,39 @@ for i in range(8):
     url2 = '&Stockstatus=1&PublishDay=84&CID={}&SearchOption='.format(category_pages[i])
     titles = []
     links = []
-    for j in range(1000):
+    for j in range(1,1000):
         url = url1 + str(j) + url2
         driver.get(url)
         time.sleep(0.5)
         for k in range(1, 26):
-                try:
-                    title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[2]/a/b'.format(k)).text
-                    link = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[1]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[2]/a[1]'.format(k)).text
-                    titles.append(title)
+            try:
+                title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[2]/a/b'.format(k)).text
+                links_selector = driver.find_elements(By.CSS_SELECTOR, '#Myform > div:nth-child(2) > div:nth-child({}) > table > tbody > tr > td:nth-child(3) > table > tbody > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > ul > li:nth-child(2) > a.bo3'.format(k))
+                titles.append(title)
+                for link_selector in links_selector:
+                    link = link_selector.get_attribute('href')
                     links.append(link)
-                    print(link)
+            except:
+                try:
+                    title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[1]/a/b'.format(k)).text
+                    links_selector = driver.find_elements(By.CSS_SELECTOR, '#Myform > div:nth-child(2) > div:nth-child({}) > table > tbody > tr > td:nth-child(3) > table > tbody > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > ul > li:nth-child(2) > a.bo3'.format(k))
+                    titles.append(title)
+                    for link_selector in links_selector:
+                        link = link_selector.get_attribute('href')
+                        links.append(link)
                 except:
                     print('NoSuchElementException : {}페이지 {}번째'.format(j, k))
+        df_section_title = pd.DataFrame(titles, columns=['titles'])
+        df_section_title['category'] = category[i]
+        df_section_title.to_csv('./crawling_data/crawling_data_{}_{}.csv'.format(i,j), index = False)
+        titles = []
+        df_section_link = pd.DataFrame(links, columns= ['links'])
+        df_section_link.to_csv('./crawling_data/crawling_link_{}_{}.csv'.format(i,j), index = False)
+        links = []
 
-#
+print(df_titles.head())
+df_titles.info()
+print(df_titles['category'].value_counts())
 
-
+#//*[@id="Myform"]/div[2]/div[3]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[1]/a/b
+#//*[@id="Myform"]/div[2]/div[2]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[2]/a/b
