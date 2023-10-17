@@ -60,6 +60,3 @@ for i in range(8):
 print(df_titles.head())
 df_titles.info()
 print(df_titles['category'].value_counts())
-
-#//*[@id="Myform"]/div[2]/div[3]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[1]/a/b
-#//*[@id="Myform"]/div[2]/div[2]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[2]/a/b
