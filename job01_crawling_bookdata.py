@@ -23,7 +23,7 @@ category_pages = [170, 50917, 50940, 656, 336, 74, 2551, 2913]
 url1 = 'https://www.aladin.co.kr/shop/wbrowse.aspx?BrowseTarget=List&ViewRowsCount=25&ViewType=Detail&PublishMonth=0&SortOrder=2&page='
 
 df_titles = pd.DataFrame()
-for i in range(8):
+for i in range(0,2):
     url2 = '&Stockstatus=1&PublishDay=84&CID={}&SearchOption='.format(category_pages[i])
     titles = []
     links = []
