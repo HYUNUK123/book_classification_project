@@ -52,14 +52,14 @@ for i in range(0,2):
                     links.append(link)
                     print('{}.{}'.format(k, link))
 
-        # if(j%100 ==0):
-        df_section_title = pd.DataFrame(titles, columns=['titles'])
-        df_section_title['category'] = category[i]
-        df_section_title.to_csv('./crawling_data/crawling_data_{}_{}.csv'.format(i,j), index = False)
-        titles = []
-        df_section_link = pd.DataFrame(links, columns= ['links'])
-        df_section_link.to_csv('./crawling_data/crawling_link_{}_{}.csv'.format(i,j), index = False)
-        links = []
+        if(j%100 ==0):
+            df_section_title = pd.DataFrame(titles, columns=['titles'])
+            df_section_title['category'] = category[i]
+            df_section_title.to_csv('./crawling_data/crawling_data_{}_{}.csv'.format(i,j/100), index = False)
+            titles = []
+            df_section_link = pd.DataFrame(links, columns= ['links'])
+            df_section_link.to_csv('./crawling_data/crawling_link_{}_{}.csv'.format(i,j/100), index = False)
+            links = []
 
 print(df_titles.head())
 df_titles.info()
