@@ -62,7 +62,7 @@ for link in link_path:
             content = "가"
         content = re.compile('[^가-힣]').sub(' ', content)
         contents.append(content)
-        print('{}.{}'.format(count,content))
+        print('{}.{} : {}'.format(count,title, content))
         content =[]
         count +=1
         if count%10 ==0:
