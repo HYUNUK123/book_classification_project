@@ -36,17 +36,18 @@ for link in link_path:
         url = str(i)
         driver.get(url)
         try:
-            bk_title = driver.find_element('xpath','//*[@id="Ere_prod_allwrap"]/div[3]/div[2]/div[1]/div/ul/li[2]/div/span').text
-            bk_title = re.compile('[^가-힣]').sub(' ', bk_title)
-            titles.append(bk_title)
-        except:
-            bk_title = '가'
-        try:
             actions = driver.find_element(By.CSS_SELECTOR, 'body')
             actions.send_keys(Keys.END)
             time.sleep(0.5)
         except:
             continue
+        try:
+            bk_title = driver.find_element('xpath',
+                                           '//*[@id="Ere_prod_allwrap"]/div[3]/div[2]/div[1]/div/ul/li[2]/div/span').text
+            bk_title = re.compile('[^가-힣]').sub(' ', bk_title)
+            titles.append(bk_title)
+        except:
+            bk_title = '가'
         for j in range(1,10):
             for k in range(1,10):
                 try:
@@ -70,5 +71,5 @@ for link in link_path:
             df_contents['titles'] = titles
             df_contents.to_csv('./crawling_data/crawling_last_{}.csv'.format(count), index=False)
     contents = []
-    bk_title = []
+    titles = []
     count = 0
