@@ -21,8 +21,7 @@ category_pages = [170, 50917, 50940, 656, 336, 74, 2551, 2913]
 
 url1 = 'https://www.aladin.co.kr/shop/wbrowse.aspx?BrowseTarget=List&ViewRowsCount=25&ViewType=Detail&PublishMonth=0&SortOrder=2&page='
 
-df_titles = pd.DataFrame()
-for i in range(0,2):
+for i in range(4,6):
     url2 = '&Stockstatus=1&PublishDay=84&CID={}&SearchOption='.format(category_pages[i])
     titles = []
     links = []
@@ -39,7 +38,7 @@ for i in range(0,2):
                     title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[1]/a/b'.format(k)).text
                 except:
                     try:
-                        title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[1]/a[1/b'.format(k)).text
+                        title = driver.find_element('xpath', '//*[@id="Myform"]/div[2]/div[{}]/table/tbody/tr/td[3]/table/tbody/tr[1]/td[1]/div[1]/ul/li[1]/a[1]/b'.format(k)).text
                     except:
                         print('NoSuchElementException : {}페이지 {}번째'.format(j, k))
             finally:
@@ -61,7 +60,5 @@ for i in range(0,2):
             df_section_link.to_csv('./crawling_data/crawling_link_{}_{}.csv'.format(i,j/100), index = False)
             links = []
 
-print(df_titles.head())
-df_titles.info()
-print(df_titles['category'].value_counts())
+
 
