@@ -36,11 +36,11 @@ for link in link_path:
         url = str(i)
         driver.get(url)
         try:
-            title = driver.find_element('xpath','//*[@id="Ere_prod_allwrap"]/div[3]/div[2]/div[1]/div/ul/li[2]/div/span').text
-            title = re.compile('[^가-힣]').sub(' ', title)
-            titles.append(title)
+            bk_title = driver.find_element('xpath','//*[@id="Ere_prod_allwrap"]/div[3]/div[2]/div[1]/div/ul/li[2]/div/span').text
+            bk_title = re.compile('[^가-힣]').sub(' ', bk_title)
+            titles.append(bk_title)
         except:
-            title = '가'
+            bk_title = '가'
         try:
             actions = driver.find_element(By.CSS_SELECTOR, 'body')
             actions.send_keys(Keys.END)
@@ -62,7 +62,7 @@ for link in link_path:
             content = "가"
         content = re.compile('[^가-힣]').sub(' ', content)
         contents.append(content)
-        print('{}.{} : {}'.format(count,title, content))
+        print('{}.{} : {}'.format(count, bk_title, content))
         content =[]
         count +=1
         if count%10 ==0:
