@@ -27,7 +27,7 @@ for z in range(4,6):
         actions = driver.find_element(By.CSS_SELECTOR, 'body')
         actions.send_keys(Keys.END)
         time.sleep(0.5)
-        for k in range(2500):
+        for k in range(10):
             print(link['links'][k])
             url = link['links'][k]
 
@@ -79,6 +79,6 @@ for z in range(4,6):
             df_introductions = pd.concat([df_introductions, df_temp])
 
             print(df_introductions)
-            if (k % 100 == 0 and k!=0):
-                file_index = k // 100
-                df_introductions.to_csv('./crawling_data/crawling_introduction_{}_{}.csv'.format(z,file_index), index = False)
+            if (k % 2499 == 0 and k!=0):
+                df_introductions.to_csv('./crawling_data/crawling_introduction_{}_{}.0.csv'.format(z,y), index = False)
+                df_introductions=pd.DataFrame()
