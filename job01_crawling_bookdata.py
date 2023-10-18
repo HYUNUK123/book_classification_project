@@ -20,7 +20,7 @@ category_pages = [170, 50917, 50940, 656, 336, 74, 2551]
 
 url1 = 'https://www.aladin.co.kr/shop/wbrowse.aspx?BrowseTarget=List&ViewRowsCount=25&ViewType=Detail&PublishMonth=0&SortOrder=2&page='
 
-for i in range(4,6):
+for i in range(category):
     url2 = '&Stockstatus=1&PublishDay=84&CID={}&SearchOption='.format(category_pages[i])
     titles = []
     links = []
