@@ -46,9 +46,14 @@ for num in range(len(link_path)):
                 try:
                     title = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[1]'.format(j,k)).text
                     if title == '책소개':
-                        content = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[3]'.format(j,k)).text
+                        try:
+                             content = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[3]'.format(j,k)).text
+                        except:
+                            content = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[4]'.format(j, k)).text
                 except:
                     continue
+        if content == []:
+            content = "가"
         content = re.compile('[^가-힣]').sub(' ', content)
         contents.append(content)
         bk_title.append(book_title[count])

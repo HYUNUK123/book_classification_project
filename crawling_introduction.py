@@ -22,6 +22,7 @@ for z in range(4,6):
         service = ChromeService(executable_path=ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)  # <- options로 변경
 
+
         # 스크롤 내리는 부분
         actions = driver.find_element(By.CSS_SELECTOR, 'body')
         actions.send_keys(Keys.END)
@@ -72,8 +73,8 @@ for z in range(4,6):
             else:
                 print("책소개를 찾을 수 없습니다.")
 
-            # print(titles)
-            # print(intros)
+            print(titles)
+            print(intros)
 
             # 인덱스 컬럼을 추가하기
             df_index = pd.DataFrame([k], columns=['index'])
@@ -84,7 +85,7 @@ for z in range(4,6):
             df_temp = pd.concat([df_index, df_titles, df_intros], axis=1)
             df_introductions = pd.concat([df_introductions, df_temp])
 
-            # print(df_introductions)
+            print(df_introductions)
             if (k % 2499 == 0 and k!=0):
-                df_introductions.to_csv('./crawling_data/crawling_introduction_{}_{}.csv'.format(z,y), index = False)
+                df_introductions.to_csv('./crawling_data/crawling_introduction_{}_{}.0.csv'.format(z,y), index = False)
                 df_introductions=pd.DataFrame()
