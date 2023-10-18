@@ -27,8 +27,8 @@ for z in range(4,6):
         actions = driver.find_element(By.CSS_SELECTOR, 'body')
         actions.send_keys(Keys.END)
         time.sleep(0.5)
-        for k in range(10):
-            print(link['links'][k])
+        for k in range(2500):
+            # print(link['links'][k])
             url = link['links'][k]
 
             df_titles = pd.DataFrame()
@@ -36,8 +36,12 @@ for z in range(4,6):
             df_intros = pd.DataFrame()
             intros = []
             driver.get(url)
-            title = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[3]/div[2]/div[1]/div/ul/li[2]/div/span').text
-            titles.append(title)
+            try:
+                title = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[3]/div[2]/div[1]/div/ul/li[2]/div/span').text
+                title = re.compile('[^가-힣]').sub(' ', title)
+                titles.append(title)
+            except:
+                title = '가'
 
             actions = driver.find_element(By.CSS_SELECTOR, 'body')
             actions.send_keys(Keys.END)
@@ -45,7 +49,7 @@ for z in range(4,6):
 
             i_found, j_found = None, None
             for i in range(8,10):
-                for j in range(3,7):
+                for j in range(3,10):
                     try:
                          intro = driver.find_element('xpath', '/html/body/div[5]/div[{}]/div[{}]/div[1]'.format(i,j)).text
                     except:
@@ -61,24 +65,27 @@ for z in range(4,6):
                     intro = driver.find_element('xpath', '/html/body/div[5]/div[{}]/div[{}]/div[3]'.format(i_found, j_found)).text
                 except:
                     intro = driver.find_element('xpath', '/html/body/div[5]/div[{}]/div[{}]/div[4]'.format(i_found, j_found)).text
+                if intro == []:
+                    intro = '가'
+                intro = re.compile('[^가-힣]').sub(' ', intro)
                 intros.append(intro)
-                print("책소개가 발견되었습니다. i={}, j={}, intro: {}".format(i_found, j_found, intro))
+                intro = []
+                # print("책소개가 발견되었습니다. i={}, j={}, intro: {}".format(i_found, j_found, intro))
             else:
                 print("책소개를 찾을 수 없습니다.")
 
-            print(titles)
-            print(intros)
+            # print(titles)
+            # print(intros)
 
             # 인덱스 컬럼을 추가하기
-            df_index = pd.DataFrame([k], columns=['index'])
             df_titles = pd.DataFrame(titles, columns=['title'])
             df_intros = pd.DataFrame(intros, columns=['intro'])
 
             # 데이터프레임을 합치기
-            df_temp = pd.concat([df_index, df_titles, df_intros], axis=1)
+            df_temp = pd.concat([df_intros, df_titles], axis=1)
             df_introductions = pd.concat([df_introductions, df_temp])
 
-            print(df_introductions)
+            # print(df_introductions)
             if (k % 2499 == 0 and k!=0):
                 df_introductions.to_csv('./crawling_data/crawling_introduction_{}_{}.0.csv'.format(z,y), index = False)
                 df_introductions=pd.DataFrame()
