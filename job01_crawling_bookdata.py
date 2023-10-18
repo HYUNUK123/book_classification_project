@@ -12,11 +12,13 @@ user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36
 options.add_argument('user-agent=' + user_agent)
 options.add_argument("lang=ko_KR")
 
+
+
 service = ChromeService(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options)  # <- options로 변경
 
-category = ['Economy', 'Novel', 'Poetry', 'Humanities', 'Self_development','History', 'Cartoon']
-category_pages = [170, 50917, 50940, 656, 336, 74, 2551]
+category = ['Economy', 'Novel', 'Poetry', 'Humanities', 'Self_development','History', 'Essay', 'science']
+category_pages = [170, 50917, 50940, 656, 336, 74, 55889, 987]
 
 url1 = 'https://www.aladin.co.kr/shop/wbrowse.aspx?BrowseTarget=List&ViewRowsCount=25&ViewType=Detail&PublishMonth=0&SortOrder=2&page='
 

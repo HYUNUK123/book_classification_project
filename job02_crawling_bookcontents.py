@@ -27,12 +27,12 @@ link_path = glob.glob('./crawling_data/*link*.csv')
 
 contents = []
 bk_title = []
-count =0
+count =851
 
 for num in range(len(link_path)):
     df = pd.read_csv(link_path[num])
     df_title = pd.read_csv(data_path[num])
-    link = df['links']
+    link = df['links'][850:]
     book_title = df_title['titles']
     for i in link:
         url = str(i)
@@ -45,7 +45,7 @@ for num in range(len(link_path)):
             for k in range(1,10):
                 try:
                     title = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[1]'.format(j,k)).text
-                    if title == '책소개':
+                    if '책소개' in title:
                         try:
                              content = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[3]'.format(j,k)).text
                         except:
