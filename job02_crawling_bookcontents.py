@@ -26,26 +26,32 @@ link_path = glob.glob('./crawling_data/*link*.csv')
 
 
 contents = []
-bk_title = []
-count =0
+titles = []
+count = 0
 
-for num in range(len(link_path)):
-    df = pd.read_csv(link_path[num])
-    df_title = pd.read_csv(data_path[num])
-    link = df['links']
-    book_title = df_title['titles']
-    for i in link:
+for link in link_path:
+    df = pd.read_csv(link)
+    df_link = df['links']
+    for i in df_link:
         url = str(i)
         driver.get(url)
-        actions = driver.find_element(By.CSS_SELECTOR, 'body')
-        actions.send_keys(Keys.END)
-        time.sleep(0.5)
-
+        try:
+            bk_title = driver.find_element('xpath','//*[@id="Ere_prod_allwrap"]/div[3]/div[2]/div[1]/div/ul/li[2]/div/span').text
+            bk_title = re.compile('[^가-힣]').sub(' ', bk_title)
+            titles.append(bk_title)
+        except:
+            bk_title = '가'
+        try:
+            actions = driver.find_element(By.CSS_SELECTOR, 'body')
+            actions.send_keys(Keys.END)
+            time.sleep(0.5)
+        except:
+            continue
         for j in range(1,10):
             for k in range(1,10):
                 try:
                     title = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[1]'.format(j,k)).text
-                    if title == '책소개':
+                    if '책소개' in title:
                         try:
                              content = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[3]'.format(j,k)).text
                         except:
@@ -56,13 +62,12 @@ for num in range(len(link_path)):
             content = "가"
         content = re.compile('[^가-힣]').sub(' ', content)
         contents.append(content)
-        bk_title.append(book_title[count])
-        print('{}.{}'.format(count,content))
+        print('{}.{} : {}'.format(count, bk_title, content))
         content =[]
         count +=1
         if count%10 ==0:
             df_contents = pd.DataFrame(contents, columns=['contents'])
-            df_contents['titles'] = bk_title
+            df_contents['titles'] = titles
             df_contents.to_csv('./crawling_data/crawling_last_{}.csv'.format(count), index=False)
     contents = []
     bk_title = []
