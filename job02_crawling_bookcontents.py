@@ -52,7 +52,7 @@ for num in range(len(link_path)):
                             content = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[4]'.format(j, k)).text
                 except:
                     continue
-        if content != []:
+        if content == []:
             content = "가"
         content = re.compile('[^가-힣]').sub(' ', content)
         contents.append(content)
