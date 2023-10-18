@@ -4,7 +4,6 @@ from selenium.webdriver.chrome.options import Options as ChromeOptions
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
-import re
 import time
 
 
@@ -16,8 +15,8 @@ options.add_argument("lang=ko_KR")
 service = ChromeService(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options)  # <- options로 변경
 
-category = ['Economy', 'Novel', 'Poetry', 'Humanities', 'Self_development','History', 'Cartoon', 'Magazine']
-category_pages = [170, 50917, 50940, 656, 336, 74, 2551, 2913]
+category = ['Economy', 'Novel', 'Poetry', 'Humanities', 'Self_development','History', 'Cartoon']
+category_pages = [170, 50917, 50940, 656, 336, 74, 2551]
 
 url1 = 'https://www.aladin.co.kr/shop/wbrowse.aspx?BrowseTarget=List&ViewRowsCount=25&ViewType=Detail&PublishMonth=0&SortOrder=2&page='
 
