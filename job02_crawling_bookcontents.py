@@ -22,7 +22,7 @@ service = ChromeService(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service, options=options)
 wait = WebDriverWait(driver, 5)
 
-data_path = glob.glob('./crawling_data/*data*.csv')
+# data_path = glob.glob('./crawling_data/*data*.csv')
 link_path = glob.glob('./crawling_data/*link*.csv')
 
 # df = pd.read_csv('./crawling_data/crawling_link_0_1.0.csv')
@@ -52,8 +52,8 @@ for link in link_path:
             titles.append(bk_title)
         except:
             bk_title = '가'
-        for j in range(1,10):
-            for k in range(1,10):
+        for j in range(15, 1, -1):
+            for k in range(15, 1, -1):
                 try:
                     act = ActionChains(driver)
                     title = driver.find_element('xpath', '//*[@id="Ere_prod_allwrap"]/div[{}]/div[{}]/div[1]'.format(j,k)).text
