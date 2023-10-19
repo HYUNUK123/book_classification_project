@@ -72,4 +72,5 @@ for link in link_path:
             df_contents.to_csv('./crawling_data/crawling_last_{}.csv'.format(count), index=False)
     contents = []
     titles = []
+    df_contents.to_csv('./crawling_data/crawling_final_{}.csv'.format(link), index = False)
     count = 0
