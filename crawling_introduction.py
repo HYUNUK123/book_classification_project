@@ -22,11 +22,6 @@ for z in range(4,6):
         service = ChromeService(executable_path=ChromeDriverManager().install())
         driver = webdriver.Chrome(service=service, options=options)  # <- options로 변경
 
-
-        # 스크롤 내리는 부분
-        actions = driver.find_element(By.CSS_SELECTOR, 'body')
-        actions.send_keys(Keys.END)
-        time.sleep(0.5)
         for k in range(2500):
             # print(link['links'][k])
             url = link['links'][k]
