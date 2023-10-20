@@ -11,16 +11,16 @@ from tensorflow.keras.models import load_model
 
 
 
-df = pd.read_csv('./crawling_data/test.csv')
+df = pd.read_csv('./crawling_data/crawling_titles_test_concat_2310201248.csv')
 print(df.head())
 df.info()
 
 X = df['titles']
 Y = df['category']
 
-with open('./models/encoder.pickle', 'rb') as f:
+with open('models/backup/encoder.pickle', 'rb') as f:
     encoder = pickle.load(f)
-labeled_y = encoder.transform(Y)        # fit 사용하지 않음, 새로운 encorder가 아닌 기존의 것을 사용하기 때문
+labeled_y = encoder.transform(Y)
 label = encoder.classes_
 
 onehot_y = to_categorical(labeled_y)
@@ -40,15 +40,15 @@ for j in range(len(X)):
                 words.append(X[j][i])
     X[j] = ' '.join(words)
 
-with open('./models/book_token.pickle', 'rb') as f:
+with open('models/backup/book_token.pickle', 'rb') as f:
     token = pickle.load(f)
 tokened_x = token.texts_to_sequences(X)
 for i in range(len(tokened_x)):
-    if len(tokened_x[i]) > 21:
-        tokened_x[i] = tokened_x[i][:22]
-x_pad = pad_sequences(tokened_x, 21)
+    if len(tokened_x[i]) > 16:
+        tokened_x[i] = tokened_x[i][:17]
+x_pad = pad_sequences(tokened_x, 16)
 
-model = load_model('./models/book_titles_classification_model_0.5230213403701782.h5')
+model = load_model('./models/book_titles_classification_model_0.7681377530097961.h5')
 preds = model.predict(x_pad)
 predicts = []
 for pred in preds:
