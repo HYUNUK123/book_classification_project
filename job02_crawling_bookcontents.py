@@ -40,8 +40,9 @@ for link in link_path:
             driver.get(url)
             # driver.implicitly_wait(5)
             actions = driver.find_element(By.CSS_SELECTOR, 'body')
-            actions.send_keys(Keys.END)
-            time.sleep(1)
+            for i in range(2):
+                actions.send_keys(Keys.END)
+                time.sleep(0.1)
         except:
             continue
         ## titles
@@ -72,14 +73,14 @@ for link in link_path:
         content =[]
         count +=1
         # 중간저장
-        if count%50 == 0 or count == len(df_link):
+        if count%50 == 0 or count == len(df_link)-1:
             df_contents = pd.DataFrame(contents, columns=['contents'])
             df_contents['titles'] = titles
-            df_contents.to_csv('./crawling_data/crawling_intro_data/crawling_last_{}.csv'.format(count), index=False)
+            df_contents.to_csv('./crawling_data/crawling_last_{}.csv'.format(count), index=False)
 
     df_contents = pd.DataFrame(contents, columns=['contents'])
     df_contents['titles'] = titles
-    df_contents.to_csv('./crawling_data/crawling_intro_data/crawling_final_{}.csv'.format(link), index=False)
+    df_contents.to_csv('./crawling_data/crawling_final_{}.csv'.format(link[30:33]), index=False)
     contents = []
     titles = []
     count = 0
