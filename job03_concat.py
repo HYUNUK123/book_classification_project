@@ -45,13 +45,14 @@ df.loc[df['contents']=='가', 'contents'] = None
 df.loc[df['titles']==' ', 'contents'] = None
 df = df.dropna()
 print(df.info())
-df.to_csv('./crawling_data/merge_titles_intros_step2_dropna{}.csv'.format(datetime.datetime.now().strftime('%Y%m%d')), index = False)
 df.drop_duplicates(['titles'],inplace=True, keep='first')      # 책 소개 기준으로 중복 제거
+df.to_csv('./crawling_data/merge_titles_intros_step2_dropna{}.csv'.format(datetime.datetime.now().strftime('%Y%m%d')), index = False)
 df['book_data'] = df['contents']+' '+df['titles']     # titles, intros한 행으로 합치기
 df_final = pd.DataFrame(df['book_data'], columns=['book_data'] )
 df_final['category'] =  df['category']
 print(df_final.head())
 df_final.info()
+print(df_titles['category'].value_counts())
 df_final.to_csv('./crawling_data/merge_titles_intros_step3_book_data{}.csv'.format(datetime.datetime.now().strftime('%Y%m%d')), index = False)
 df_final.to_csv('./crawling_data/result/crawling_book_data_final_{}.csv'.format(datetime.datetime.now().strftime('%y%m%d%h%M%S')), index = False)
 
